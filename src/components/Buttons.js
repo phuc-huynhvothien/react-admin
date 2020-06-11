@@ -1,5 +1,5 @@
 import React from 'react';
-import Button from './BootrapsComponents/Button'
+import Button from './BootrapsComponents/Button/Button'
 import Icons from '../components/service/icons'
 function Buttons(){
     return(

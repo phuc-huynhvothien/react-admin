@@ -1,8 +1,7 @@
 import React from "react";
-import PropTypes from "prop-types";
-import Icons from "../service/icons"
+import Icons from "../../service/icons"
 function Button(props) {
-    const { children, icon, loading, id, type, customClass, acvite } = props;
+    const { children, icon, loading, type, customClass } = props;
 
     let btnClass = `btn btn-${type ? type : "defaut"}`;
     let classes = btnClass + " " + customClass;
@@ -16,7 +15,7 @@ function Button(props) {
                  aria-hidden="true"
              ></span>
             ) : ( 
-                icon != "" && <span className={`${children ? `mg-r-5` : ``}`}>{Icons(icon)}</span>)}
+                icon !== "" && <span className={`${children ? `mg-r-5` : ``}`}>{Icons(icon)}</span>)}
             
             {children}</button>
     );
