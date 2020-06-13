@@ -5,19 +5,27 @@ import Loader from './Loader/Loader'
 class Home extends Component {
   state = {
     customers: [],
-    url: "http://127.0.0.1:8000/api/customers",
-    loading: false
+    url: "/customers",
+    loading: false,
+    error: false
   };
 
   getList = async () => {
     this.setState({ loading: true });
-    const customers = await axios.get(this.state.url);
-    this.setState({ customers: customers.data, loading: false });
+    axios.get(this.state.url).then(response => {
+      this.setState({ customers: response.data, loading: false });
+    }).catch(
+      error => {
+        console.log(error);
+        this.setState({ error: true });
+      }
+    );
+
   }
   deleteCustomer = async (id) => {
     this.setState({ loading: true });
-    await axios.delete(this.state.url+ "/" + id).catch(e => {
-      alert(e.response.status === 404 ? "Customer not found":"");
+    await axios.delete("/" + id).catch(e => {
+      alert(e.response.status === 404 ? "Customer not found" : "");
     }
     );
     this.setState({ loading: false });
@@ -26,8 +34,8 @@ class Home extends Component {
   componentDidMount() {
     this.getList();
   };
-  onDelete = (id) =>{
-     this.deleteCustomer(id);
+  onDelete = (id) => {
+    this.deleteCustomer(id);
   }
   render() {
     return (
