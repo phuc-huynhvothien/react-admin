@@ -8,7 +8,7 @@ import axios from 'axios';
 axios.defaults.baseURL = "http://127.0.0.1:8000/api";
 axios.defaults.headers.common['Authorization'] ='Say hi to me :)';
 axios.interceptors.request.use(request => {
-  console.log(request);
+  console.log("request");
   return request;
 }, error => {
   console.log(error);
@@ -16,7 +16,7 @@ axios.interceptors.request.use(request => {
 });
 
 axios.interceptors.response.use(response => {
-  console.log(response);
+  console.log("Response");
   return response;
 }, error => {
   console.log(error);

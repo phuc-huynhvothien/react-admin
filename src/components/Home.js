@@ -1,52 +1,52 @@
-import React, { Component } from 'react';
+import React, { Component, useEffect, useState } from 'react';
 import axios from 'axios';
 import CustomerList from './Customer/CustomerList';
-import Loader from './Loader/Loader'
-class Home extends Component {
-  state = {
-    customers: [],
-    url: "/customers",
-    loading: false,
-    error: false
-  };
+import Loader from './Loader/Loader';
 
-  getList = async () => {
-    this.setState({ loading: true });
-    axios.get(this.state.url).then(response => {
-      this.setState({ customers: response.data, loading: false });
+function Home() {
+  const [customers, setCustomers] = useState([]);
+  const [url, setUrl] = useState("/customers");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
+  const [seed, setSeed] = useState();
+  async function getList(){
+    setLoading(true);
+    axios.get(url).then(response => {
+      setCustomers(response.data);
+      setLoading(false);
     }).catch(
       error => {
         console.log(error);
-        this.setState({ error: true });
+        setError(true);
       }
     );
+  }
+  function handleDelete(id){
+    axios.delete(url+`/${id}`).then(request =>{
+      alert("DONE");
+      setSeed(Math.random());
+    }).catch(error => {
+      console.log(error);
+    });
+  }
 
-  }
-  deleteCustomer = async (id) => {
-    this.setState({ loading: true });
-    await axios.delete("/" + id).catch(e => {
-      alert(e.response.status === 404 ? "Customer not found" : "");
-    }
-    );
-    this.setState({ loading: false });
-    this.getList();
-  }
-  componentDidMount() {
-    this.getList();
-  };
-  onDelete = (id) => {
-    this.deleteCustomer(id);
-  }
-  render() {
-    return (
-      <div className="ui main container">
-        {/* <MyForm /> */}
-        {this.state.loading ? <Loader /> : ""}
-        <CustomerList customers={this.state.customers} onDelete={this.onDelete} />
-      </div>
 
-    )
-  }
+  useEffect(() =>{
+    getList();
+  },[]);
+
+  useEffect(() =>{
+    console.log("GOOOOOO");
+    getList();
+  },[seed]);
+
+  return (
+    <div className="ui main container">
+      {/* <MyForm /> */}
+      {loading ? <Loader /> : ""}
+      <CustomerList customers={customers} onDelete={handleDelete} />
+    </div>
+  );
 }
 
 export default Home;
