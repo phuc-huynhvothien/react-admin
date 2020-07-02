@@ -42,3 +42,184 @@ $font-family-system:              -apple-system, BlinkMacSystemFont, "Inter UI",
 $font-weight-medium:              500;
 $font-weight-semibold:            600;
 $font-weight-bold:                700;
+
+
+@import "../bootstrap/_variables";
+
+$color_primary: #3e3f42;
+$border-color-primary: #d8dce6;
+$color_note: #9ea0a5;
+$color_border_input: #e2e5ed;
+$color_warning: rgba(122, 77, 5, 0.8);
+$border_color_warning: #ccbea0;
+$background_color_warning: #fffaf3;
+$background_active_color: #0077ff;
+$background_un_active_color: #eaebf1;
+$background_active_color_opacity: #f2f8ff;
+$padding_alert: 4px 20px;
+$badge_color_primary: #0077ff;
+$hight_light_tab: #5456fc;
+$background-method-right: #fbfbfb;
+$circle_background: #fd004d;
+$background_delete_btn: #fdedeb;
+$primary-text-color3: #c0ccda;
+$back_ground_color_logout: #d32f2f;
+
+$back_ground_color_tardy_opacity: #f9f0e2;
+
+$back-ground-color-sun-time: rgba(243, 155, 19, 0.2);
+$text-color-sun-time: #f39b12;
+//thuy---------
+$primary-color: #1a61d8;
+$primary-bg-text-color: #fff;
+$secondary-color: #9ea0a5;
+$hightlight-color: #faf9fe;
+$border-color: #f0f0f3;
+$button-color: #d8d8d8;
+
+//need refactor
+$color-over-time: #9a56b5;
+
+$text-working-color: #ff0056;
+
+$text-color-title: #7f7f7f;
+
+$work-time-color: #1aceb3;
+$over-time-color: #f0f0f0;
+
+$over-time-color-opacity-20: #fbfbfb;
+
+$border-corlor-btn: #f3ecec;
+
+//button
+$btn-background-color-hover: #0069d9;
+$btn-color-hover: #0178ff;
+$btn-color-add1: #5b4bde;
+
+//text-color
+$lightest-color: #eaebf1;
+
+// Typography
+$font-family-base: "Noto Sans", MalgunGothic, Dotum, Gulim, Meiryo, Roboto,
+    "Helvetica Neue", Arial, "Open Sans", sans-serif !default;
+$font-size-base: 14px !default; // Assumes the browser default, typically `16px`. 14/16px
+$line-height-base: 1.3rem !default;
+$font-color-base: #3e3f42 !default;
+
+$font-color-time: #f39b12;
+$back-ground-color-time: #fdebcf;
+
+// form
+$input-border: rgba(
+    $color: #eaebf1,
+    $alpha: 0.2
+);
+//*//
+
+$heightTab: 55px;
+
+$border-color-group: #c0ccda33;
+$background-color-group: #c0ccda1a;
+$border-color-group-highlight: #0168fa4d;
+//romio
+//variable
+
+$list-theme-colors: (
+    white-color: #ffffff,
+    primary: #0077ff,
+    primary-hover: #f2f8ff,
+    common-light-gray-border: #eaebf1,
+    common-light-gray-border-default: #f0f0f3,
+    tab-normal-color: #999999,
+    bg-default: #fefefe
+);
+
+//import new design 3/3/2020
+$list_theme_colors_new_UI: (
+    default-primary-color: #0168fa,
+    primary-text-color: #001737,
+    primary-text-color1: #1b2e4b,
+    primary-text-color2: #8392a5,
+    primary-text-color3: #c0ccda,
+    dark-primary-color: #042893,
+    font-color-base: #3e3f42,
+    border-color-primary: #f0f0f3,
+    status-color-holiday: #f10075,
+    status-check-in-start: #10b759,
+    status-time-different: #5b47fb,
+    hover-color-list: #f8f9fa,
+    active-color-list: #eef0f7,
+    status-color-working-hour: #fd7e14,
+    status-color-dangerous: #be2020,
+    timeline-box-before: #0168fa1a,
+    timeline-box-after: #0201011a,
+    timeline-btn-change: rgba(1, 104, 250, 0.2),
+    timeline-btn-punch-status: rgba(253, 126, 20, 0.2)
+);
+
+$list-typography: (
+    header: 34,
+    title1: 20,
+    title2: 22,
+    title3: 24,
+    title4: 26,
+    title5: 28,
+    title6: 30,
+    headline: 17,
+    body: 16,
+    body1: 14,
+    caption1: 10,
+    caption2: 11,
+    caption3: 12,
+    caption4: 13
+);
+
+$list-font-weight: (
+    thin: 100,
+    ultraLight: 200,
+    light: 300,
+    regular: 400,
+    medium: 500,
+    semibold: 600,
+    bold: 700,
+    heavy: 800,
+    black: 900
+);
+
+$list-font-size: (
+    h1: 6,
+    h2: 3.75,
+    h3: 3,
+    h4: 2.125,
+    h5: 1.5,
+    h6: 1.25,
+    subtitle1: 1,
+    subtitle2: 0.875,
+    body1: 1,
+    body2: 0.875,
+    button: 0.875,
+    caption: 0.75,
+    overline: 0.75
+);
+
+$dashboard-colors: map-merge(map-merge($grays, $colors), $theme-colors);
+$border-width: 1px;
+//function
+@function get-typography($key: "body") {
+    @return map-get($list-typography, $key) + px;
+}
+
+@function get-font-weight($key: "regular") {
+    @return map-get($list-font-weight, $key);
+}
+@function get-color($key: "primary") {
+    @return map-get($list_theme_colors_new_UI, $key);
+}
+
+@function background-opacity-from-hex($hexColor, $opacity: 0.3) {
+    @return rgba($hexColor, $opacity);
+}
+
+@function get-font-size($key: "body1") {
+    @return map-get($list-font-size, $key) + rem;
+}

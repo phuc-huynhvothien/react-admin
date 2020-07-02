@@ -1,66 +1,127 @@
-$(function(){
+// $(function(){
 
-  'use strict'
+//   'use strict'
 
-  $('[data-toggle="tooltip"]').tooltip()
+//   $('[data-toggle="tooltip"]').tooltip()
 
-  const asideBody = new PerfectScrollbar('.aside-body', {
-    suppressScrollX: true
-  });
+//   const asideBody = new PerfectScrollbar('.aside-body', {
+//     suppressScrollX: true
+//   });
 
-  if($('.aside-backdrop').length === 0) {
-    $('body').append('<div class="aside-backdrop"></div>');
-  }
+//   if($('.aside-backdrop').length === 0) {
+//     $('body').append('<div class="aside-backdrop"></div>');
+//   }
 
-  var mql = window.matchMedia('(min-width:992px) and (max-width: 1199px)');
+//   var mql = window.matchMedia('(min-width:992px) and (max-width: 1199px)');
 
-  function doMinimize(e) {
-    if (e.matches) {
-      $('.aside').addClass('minimize');
-    } else {
-      $('.aside').removeClass('minimize');
+//   function doMinimize(e) {
+//     if (e.matches) {
+//       $('.aside').addClass('minimize');
+//     } else {
+//       $('.aside').removeClass('minimize');
+//     }
+
+//     asideBody.update()
+//   }
+
+//   mql.addListener(doMinimize);
+//   doMinimize(mql);
+
+//   $('.aside-menu-link').on('click', function(e){
+//     e.preventDefault()
+
+//     if(window.matchMedia('(min-width: 992px)').matches) {
+//       $(this).closest('.aside').toggleClass('minimize');
+//     } else {
+
+//       $('body').toggleClass('show-aside');
+//     }
+
+//     asideBody.update()
+//   })
+
+//   $('.nav-aside .with-sub').on('click', '.nav-link', function(e){
+//     e.preventDefault();
+
+//     $(this).parent().siblings().removeClass('show');
+//     $(this).parent().toggleClass('show');
+
+//     asideBody.update()
+//   })
+
+//   $('body').on('mouseenter', '.minimize .aside-body', function(e){
+//     console.log('e');
+//     $(this).parent().addClass('maximize');
+//   })
+
+//   $('body').on('mouseleave', '.minimize .aside-body', function(e){
+//     $(this).parent().removeClass('maximize');
+
+//     asideBody.update()
+//   })
+
+//   $('body').on('click', '.aside-backdrop', function(e){
+//     $('body').removeClass('show-aside');
+//   })
+// })
+
+
+import jQuery from 'jquery';
+
+
+(function ($) {
+  $.fn.createAsideBar = function (asideBody) {
+    // $('[data-toggle="tooltip"]').tooltip()
+
+    // const asideBody = new PerfectScrollbar(`#${$(this).get(0).id}`, {
+    //   suppressScrollX: true
+    // });
+
+    if ($('.aside-backdrop').length === 0) {
+      $('.hr-body').append('<div class="aside-backdrop"></div>');
     }
 
-    asideBody.update()
-  }
+    var mql = window.matchMedia('(min-width:992px) and (max-width: 1199px)');
 
-  mql.addListener(doMinimize);
-  doMinimize(mql);
+    function doMinimize(e) {
+      if (e.matches) {
+        $('.aside').addClass('minimize');
+      } else {
+        $('.aside').removeClass('minimize');
+      }
 
-  $('.aside-menu-link').on('click', function(e){
-    e.preventDefault()
-
-    if(window.matchMedia('(min-width: 992px)').matches) {
-      $(this).closest('.aside').toggleClass('minimize');
-    } else {
-
-      $('body').toggleClass('show-aside');
+      asideBody.update()
     }
 
-    asideBody.update()
-  })
+    mql.addListener(doMinimize);
+    doMinimize(mql);
 
-  $('.nav-aside .with-sub').on('click', '.nav-link', function(e){
-    e.preventDefault();
+    $('.nav-aside .with-sub').on('click', '.nav-link', function (e) {
+      e.preventDefault();
 
-    $(this).parent().siblings().removeClass('show');
-    $(this).parent().toggleClass('show');
+      $(this).parent().siblings().removeClass('show');
+      $(this).parent().toggleClass('show');
 
-    asideBody.update()
-  })
+      asideBody.update()
+    })
 
-  $('body').on('mouseenter', '.minimize .aside-body', function(e){
-    console.log('e');
-    $(this).parent().addClass('maximize');
-  })
+    $('body').on('mouseenter', '.minimize .aside-body', function (e) {
+      $(this).parent().addClass('maximize');
+    })
 
-  $('body').on('mouseleave', '.minimize .aside-body', function(e){
-    $(this).parent().removeClass('maximize');
+    $('body').on('mouseleave', '.minimize .aside-body', function (e) {
+      $(this).parent().removeClass('maximize');
 
-    asideBody.update()
-  })
+      asideBody.update()
+    })
 
-  $('body').on('click', '.aside-backdrop', function(e){
-    $('body').removeClass('show-aside');
-  })
-})
+    $(document).on('click', '.aside-backdrop', function (e) {
+      $('.hr-body').removeClass('show-aside');
+    })
+
+  }
+}(jQuery));
+
+
+
+
