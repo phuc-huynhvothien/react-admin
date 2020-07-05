@@ -1,58 +1,77 @@
-import React, { Component } from "react";
+import React ,{useHi} from "react";
 import classNames from "classnames";
 import Icons from "../../service/icons";
 import '../../BootrapsComponents/Pagination/styles.scss';
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    Link,
+    Redirect,
+    useLocation,
+    useHistory,
+    useParams, NavLink
+} from "react-router-dom";
 const defaultProps = {
     initialPage: 1,
     minimumPage: 1,
     numberOfItemDisplay: 3,
-    // numberOfItemDisplayCenter: 2 // Number page display next to current page of array center
 };
-class Pagination extends Component {
+function Pagination(props) {
+    const {
+        totalPage,
+        currentPage,
+        minimumPage,
+        onChangePage,
+        numberOfItemDisplay,
+        numberOfItemDisplayCenter
+    } = props;
 
-    setPage = (page) => {
-        console.log(page);
-        this.props.onChangePage(page);
+    let history = useHistory();
+    let location = useLocation();
+    const pathname = location.pathname;
+    function setPage(page){
+        props.onChangePage(page);
+        history.push(`/about?page=${page}`);
     }
 
-    getArrayPageAll = () => {
+    function getArrayPageAll(){
         let arrayPage = [];
-        for (let index = 1; index <= this.props.totalPage; index++) {
-            //push to last index of array
+        for (let index = 1; index <= totalPage; index++) {
             arrayPage.push(index);
         }
         return arrayPage;
     };
-    getArrayPageFirst = () => {
+    function getArrayPageFirst(){
         let arrayPage = [];
         arrayPage.push(1);
         arrayPage.push(2);
         return arrayPage;
     };
 
-    getArrayPageLast = () => {
+    function getArrayPageLast(){
         let arrayPage = [];
-        arrayPage.push(this.props.totalPage - 1);
-        arrayPage.push(this.props.totalPage);
+        arrayPage.push(totalPage - 1);
+        arrayPage.push(totalPage);
         return arrayPage;
     };
 
-    getArrayPageBetween = currentPage => {
+    function getArrayPageBetween(currentPage){
         let arrayPage = [];
 
         const leftLimit = 2;
-        const rightLimit = this.props.totalPage - 2;
+        const rightLimit = totalPage - 2;
 
         if (currentPage > leftLimit && currentPage <= rightLimit) {
             arrayPage.push(currentPage);
         }
-        if (currentPage == 1 || currentPage == this.props.totalPage) {
+        if (currentPage === 1 || currentPage === totalPage) {
             return arrayPage;
         }
 
         for (
             let index = 1;
-            index < this.props.numberOfItemDisplayCenter;
+            index < numberOfItemDisplayCenter;
             index++
         ) {
             let leftPage = currentPage - index;
@@ -69,17 +88,17 @@ class Pagination extends Component {
         });
     };
 
-    renderPage = arrayPage => {
+    function renderPage(arrayPage){
         return arrayPage.map((page, index) => (
             <li
                 key={index}
                 className={classNames("page-item page-number", {
-                    "current-page": this.props.currentPage === page
+                    "current-page": currentPage === page
                 })}
             >
                 <a
                     className="pagi-link a-item-number"
-                    onClick={() => this.setPage(page)}
+                    onClick={()=>setPage(page)}
                 >
                     {page}
                 </a>
@@ -87,30 +106,30 @@ class Pagination extends Component {
         ));
     };
 
-    checkRenderEllipse = () => {
-        const { numberOfItemDisplay, totalPage, currentPage } = this.props;
+    function checkRenderEllipse(){
+        // const { numberOfItemDisplay, totalPage, currentPage } = this.props;
         if (totalPage > numberOfItemDisplay * 2) {
             return (
                 <>
-                    {this.renderPage(this.getArrayPageFirst())}
-                    {currentPage - (this.props.numberOfItemDisplayCenter + 2) >
+                    {renderPage(getArrayPageFirst())}
+                    {currentPage - (numberOfItemDisplayCenter + 2) >
                         0
                         ? "..."
                         : ""}
 
-                    {this.renderPage(this.getArrayPageBetween(currentPage))}
+                    {renderPage(getArrayPageBetween(currentPage))}
 
                     {currentPage <=
-                        totalPage - (this.props.numberOfItemDisplayCenter + 2)
+                        totalPage - (numberOfItemDisplayCenter + 2)
                         ? "..."
                         : ""}
-                    {this.renderPage(this.getArrayPageLast())}
+                    {renderPage(getArrayPageLast())}
                 </>
             );
         } else {
             return (
                 <>
-                    {this.getArrayPageAll().map((page, index) => (
+                    {getArrayPageAll().map((page, index) => (
                         <li
                             key={index}
                             className={classNames("page-item page-number", {
@@ -119,7 +138,7 @@ class Pagination extends Component {
                         >
                             <a
                                 className="pagi-link a-item-number"
-                                onClick={() => this.setPage(page)}
+                                onClick={setPage(page)}
                             >
                                 {page}
                             </a>
@@ -129,109 +148,95 @@ class Pagination extends Component {
             );
         }
     };
+    return (
 
-    render() {
-        const {
-            totalPage,
-            currentPage,
-            minimumPage,
-            onChangePage
-        } = this.props;
-        return (
-            <div className="pagination-wrap">
-                <ul className="crm-pagination crm-pagination-table">
-                    <li
-                        className={classNames(
-                            "page-item first page-item-icon",
-                            {
-                                disabled: currentPage === minimumPage
+        <div className="pagination-wrap">
+            <ul className="crm-pagination crm-pagination-table">
+                <li
+                    className={classNames(
+                        "page-item first page-item-icon",
+                        {
+                            disabled: currentPage === minimumPage
+                        }
+                    )}
+                >
+                    <a
+                        onClick={() => {
+                            if (currentPage !== minimumPage) {
+                                this.setPage(minimumPage);
                             }
-                        )}
+                        }}
+                        className="pagi-link"
                     >
-                        <a
-                            onClick={() => {
-                                if (currentPage !== minimumPage) {
-                                    this.setPage(minimumPage);
-                                }
-                            }}
-                            className="pagi-link"
-                        >
-                            {/* {Icons("chevrons_right")} */} {'<<'}
-                        </a>
-                    </li>
-
-
-
-
-
-
-
-                    <li
-                        className={classNames(
-                            "page-item prev page-item-icon",
-                            {
-                                disabled: currentPage === minimumPage
+                        {/* {Icons("chevrons_right")} */} {'<<'}
+                    </a>
+                </li>
+                <li
+                    className={classNames(
+                        "page-item prev page-item-icon",
+                        {
+                            disabled: currentPage === minimumPage
+                        }
+                    )}
+                >
+                    <a
+                        onClick={() => {
+                            if (currentPage !== minimumPage) {
+                                this.setPage(currentPage - 1);
                             }
-                        )}
+                        }}
+                        // onClick={() => this.setPage(pager.currentPage - 1)}
+                        className="pagi-link"
                     >
-                        <a
-                            onClick={() => {
-                                if (currentPage !== minimumPage) {
-                                    this.setPage(currentPage - 1);
-                                }
-                            }}
-                            // onClick={() => this.setPage(pager.currentPage - 1)}
-                            className="pagi-link"
-                        >
-                            {/* {Icons("chevrons_right")} */} {'<'}
-                        </a>
-                    </li>
-                    {this.checkRenderEllipse()}
-                    <li
-                        className={classNames(
-                            "page-item next page-item-icon",
-                            {
-                                disabled: currentPage === totalPage
+                        {/* {Icons("chevrons_right")} */} {'<'}
+                    </a>
+                </li>
+                {checkRenderEllipse()}
+                <li
+                    className={classNames(
+                        "page-item next page-item-icon",
+                        {
+                            disabled: currentPage === totalPage
+                        }
+                    )}
+                >
+                    <a
+                        onClick={() => {
+                            if (currentPage < totalPage) {
+                                onChangePage(
+                                    currentPage < totalPage
+                                        ? currentPage + 1
+                                        : currentPage
+                                );
                             }
-                        )}
+                        }}
+                    // className="pagi-link"
                     >
-                        <a
-                            onClick={() => {
-                                if (currentPage < totalPage) {
-                                    onChangePage(
-                                        currentPage < totalPage
-                                            ? currentPage + 1
-                                            : currentPage
-                                    );
-                                }
-                            }}
-                        // className="pagi-link"
-                        >
-                            {/* {Icons("chevrons_right")} */} {'>'}
-                        </a>
-                    </li>
-                    <li
-                        className={classNames(
-                            "page-item last page-item-icon",
-                            {
-                                disabled: currentPage === totalPage
+                        {/* {Icons("chevrons_right")} */} {'>'}
+                    </a>
+                </li>
+                <li
+                    className={classNames(
+                        "page-item last page-item-icon",
+                        {
+                            disabled: currentPage === totalPage
+                        }
+                    )}
+                >
+                    <a
+                        onClick={() => {
+                            if (currentPage !== totalPage) {
+                                onChangePage(totalPage);
                             }
-                        )}
+                        }}
+                        className="pagi-link"
                     >
-                        <a
-                            onClick={() => {
-                                if (currentPage !== totalPage) {
-                                    onChangePage(totalPage);
-                                }
-                            }}
-                            className="pagi-link"
-                        >
-                            {/* {Icons("chevrons_right")} */} {'>>'}
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        );
-    }
+                        {/* {Icons("chevrons_right")} */} {'>>'}
+                    </a>
+                </li>
+            </ul>
+        </div>
+    );
+
 }
 export default Pagination;

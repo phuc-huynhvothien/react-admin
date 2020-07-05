@@ -1,23 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import Icons from './service/icons';
 import axios from 'axios';
-import Pagination from './BootrapsComponents/Pagination'
-function About() {
+import Pagination from './BootrapsComponents/Pagination';
+import {useParams,useLocation} from "react-router-dom";
+function About({match}) {
   const [loading, setLoading] = useState(false);
   const [rows, setRows] = useState(null);
   const [total, setTotal] = useState(0);
   const [perPage, setPerpage] = useState(0);
   const [currentPage, setCurrentPage] = useState(0);
   const [totalPage, setTotalPage] = useState(0);
-
+  let urlSearch = new URLSearchParams(useLocation().search);
   async function getList(page = 1) {
-    setLoading(true);
-    axios.get('/customers', {
-      params: {
-        page: page
-      }
-    }).then(response => {
+    try {
       setLoading(false);
+      const response = await axios.get('/customers', {
+        params: {
+          page: page
+        }
+      });
       let data = response.data;
       setTotal(data.total);
       setPerpage(data.per_page);
@@ -25,20 +26,23 @@ function About() {
       setTotalPage(data.last_page);
       let dataRow = response.data.data;
       setRows(dataRow);
-    }).catch(
-      error => {
-        console.log(error);
-      }
-    );
+    } catch (error) {
+      console.log(error);
+
+    }
+
   }
   function onChangePage(page) {
     getList(page);
   }
+
+  
   useEffect(() => {
-    getList();
+    getList(urlSearch.get("page"));
   }, []);
   return (
     <>
+    <h1>ABOUT</h1>
       <div className="container-body container-scroll pd-20">
         <div className="table-responsive">
           <table className="table han-table">

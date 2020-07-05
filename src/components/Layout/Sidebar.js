@@ -1,5 +1,5 @@
 import React, { Component, Fragment, useState, useEffect } from "react";
-import { NavLink, withRouter } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import Icons from "../../services/icons";
 import classNames from "classnames";
 import $ from 'jquery';
@@ -25,12 +25,12 @@ class Sidebar extends React.Component {
         return (
             <>
                 <div className="aside-header">
-                    <NavLink
+                    <Link
                         to={`/`}
                         className="aside-logo"
                     >
                         PTMESOL :X
-                    </NavLink>
+                    </Link>
                     <a href="" className="hr-icon-bar"
                         onClick={this.toggleBar}
                     >
@@ -50,10 +50,10 @@ class Sidebar extends React.Component {
                         <ul className="nav nav-aside">
                             <li className="nav-label">Dashboard</li>
                             <li className="nav-item active">
-                                <NavLink to={`/`} className="nav-link"><i data-feather="shopping-bag"></i> <span>Home</span></NavLink>
+                                <Link to={`/`} className="nav-link"><i data-feather="shopping-bag"></i> <span>Home</span></Link>
                             </li>
                             <li className="nav-item">
-                                <NavLink to={`/about`} className="nav-link"><i data-feather="shopping-bag"></i> <span>About</span></NavLink>
+                                <Link to={`/about?page=1`} className="nav-link"><i data-feather="shopping-bag"></i> <span>About</span></Link>
                             </li>
                             <li className="nav-item"><a href="dashboard-three.html" className="nav-link"><i data-feather="pie-chart"></i> <span>Cryptocurrency</span></a></li>
                             <li className="nav-item"><a href="dashboard-four.html" className="nav-link"><i data-feather="life-buoy"></i> <span>Helpdesk Management</span></a></li>
